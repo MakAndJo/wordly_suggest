@@ -105,9 +105,10 @@ def main():
                     for letter in alphabet: # each letter in alphabet
                         if letter != symbol: # except current
                             ignored[pos].append(letter) # add to ignore list
-    run()
+    while True:
+        run()
+
     return False
 
 if __name__ == '__main__':
-    while True:
-        main()
+    main()
