@@ -62,35 +62,33 @@ def main():
                         if len(answers) >= 20: # break if more than 20 words
                             break
 
-            if len(answers) == 0: # if no words found
-                print('Не знаю таких слов!')
-            else:
-                print("Могу предложить тебе эти слова:\r")
-                print("+\xa0-----\xa0+")
+            if len(answers) > 0:
                 answers.sort(key=lambda x: -len(set(x))) # sort words
                 if len(answers) > 10: # if more than 10 words
                     answers = answers[:10] # only last 10 words
-                for answer in answers:
-                    print(f'|\xa0{answer.capitalize()}\xa0|')
+                print("Могу предложить тебе эти слова:\r")
                 print("+\xa0-----\xa0+")
-                if len(answers) == 1:
-                    input("Нажмите Enter для продолжения...")
-                    break
+                for answer in answers:
+                    print(f"|\xa0{answer.capitalize()}\xa0|") # print each word
+                print("+\xa0-----\xa0+")
+            if len(answers) <= 1: # if found less than 2 words or not found at all
+                input("Нажмите Enter для продолжения...")
+                break
 
             while True:
                 word: str = input('Слово:\xa0').lower()
-                if not is_russian_word(word):
+                if not is_russian_word(word): # if not russian word
                     print("Ты шо на пендосском базаришь? Твоя моя не понимать.\n\rДавай ещё раз, но только по русски.")
                 elif len(word) != 5:
                     print("Бля, нее. Я могу угадывать слова только из 5 символов. Не больше, не меньше!")
                 else: break
-
             while True:
                 colors: list = list(filter(str.strip, list(input('Цвета:\xa0').lower())))
-                if not is_valid_colors(colors):
-                    print("Invalid colors!", f"({colors})")
+                if not is_valid_colors(colors): # if not valid colors
+                    valid_colors = ",\xa0".join(list(colors_dict))
+                    print(f"Эхх.. Жаль я знаю только ({valid_colors}) цвета. Попробуй ещё раз ввести.")
                 elif len(colors) != 5:
-                    print("Invalid colors length!")
+                    print("Эй! Введи только 5 цветов!")
                 else: break
 
             for (pos, color) in enumerate(colors): # on each color
@@ -111,4 +109,7 @@ def main():
     return False
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass
